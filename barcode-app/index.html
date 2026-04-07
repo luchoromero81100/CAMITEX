@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Etiquetas de Código de Barras</title>
+    <!-- Hoja de estilos -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- SheetJS (xlsx) para leer archivos Excel (Browser-side) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- JsBarcode para generar los códigos de barras en el navegador -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+    <div class="no-print container">
+        <h1>Generador de Etiquetas (50x24.5mm)</h1>
+        <p>Sube un archivo Excel (.xlsx) con las siguientes columnas requeridas: <br>
+           <strong>TEXTO, SKU, PRECIO, CANTIDAD</strong>
+        </p>
+        
+        <div class="controls">
+            <input type="file" id="excelFile" accept=".xlsx, .xls" />
+            <button id="processBtn">Procesar Archivo</button>
+            <button id="printBtn" disabled>Imprimir Etiquetas</button>
+            <button id="resetBtn">Limpiar / Reiniciar</button>
+        </div>
+
+        <div id="status" class="status-message"></div>
+        <div id="stats" class="stats-message"></div>
+    </div>
+
+    <!-- Área exclusiva para previsualización e impresión. Todo lo que cae dentro de esta área usa tamaños reales en milímetros. -->
+    <div id="printArea" class="print-area">
+        <!-- Las etiquetas se generarán e insertarán aquí dinámicamente -->
+    </div>
+
+    <!-- Lógica de la aplicación -->
+    <script src="app.js"></script>
+</body>
+</html>

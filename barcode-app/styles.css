@@ -1,0 +1,284 @@
+/* ==========================================================================
+   ESTILOS GENERALES Y DE INTERFAZ (No se imprimen)
+   ========================================================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-top: 0;
+    color: #1a1a1a;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+button {
+    padding: 10px 18px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+#resetBtn {
+    background-color: #dc3545;
+}
+
+#resetBtn:hover {
+    background-color: #a71d2a;
+}
+
+#printBtn {
+    background-color: #28a745;
+}
+
+#printBtn:hover:not(:disabled) {
+    background-color: #1c7430;
+}
+
+input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background: #f8f9fa;
+    font-size: 14px;
+}
+
+.status-message {
+    margin-top: 15px;
+    color: #dc3545;
+    /* Rojo para errores */
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.stats-message {
+    margin-top: 10px;
+    color: #28a745;
+    /* Verde para éxito/estadísticas */
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   ÁREA DE IMPRESIÓN Y PREVISUALIZACIÓN (Tamaños exactos en mm)
+   ========================================================================== */
+
+/* Contenedor principal de la previsualización */
+.print-area {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    /* Separación vertical entre filas solo para la previsualización */
+}
+
+/* 
+   Fila de etiquetas (representa la zona imprimible de la impresora)
+   - Ancho total: 103 mm
+   - Alto total: 24.5 mm
+*/
+.label-row {
+    display: flex;
+    width: 103mm;
+    height: 24.5mm;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    /* Borde punteado tenue solo para que el usuario pueda ver los límites en pantalla */
+    outline: 1px dashed #adb5bd;
+}
+
+/* 
+   Etiqueta individual
+   - Ancho: 50 mm
+   - Alto: 24.5 mm
+*/
+.label {
+    width: 50mm;
+    height: 24.5mm;
+    box-sizing: border-box;
+    /* Un pequeño relleno (padding) para que el texto/código no toque el borde del papel */
+    padding: 1mm 1.5mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    background-color: transparent;
+}
+
+/* Separación horizontal entre ambas etiquetas en la fila (3mm) */
+.label-gap {
+    width: 3mm;
+    height: 100%;
+}
+
+/* Espacio vacío / placeholder para el lado DERECHO cuando el total es impar */
+.label-placeholder {
+    width: 50mm;
+    height: 24.5mm;
+    background: transparent;
+    border: none;
+    /* Sin contenido, ni borde, para garantizar que la impresora lo deje en blanco */
+}
+
+/* ==========================================================================
+   CONTENIDO INTERNO DE LA ETIQUETA
+   ========================================================================== */
+
+.label-title {
+    font-size: 7pt;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Trunca con '...' si es muy largo */
+    width: 100%;
+    margin: 0;
+    padding-top: 0.5mm;
+    /* Pegado arriba, pero seguro para impresión */
+    line-height: 1.1;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    padding-bottom: 1mm;
+}
+
+.label-barcode-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* El SVG del código de barras se limita para que no rompa el alto físico de la etiqueta */
+.label-barcode-container svg {
+    max-width: 100%;
+    height: 12mm;
+    /* Suficiente para lectura, manteniendo márgenes */
+    shape-rendering: crispEdges;
+    /* Evita que el navegador difumine las barras al encogerlas */
+}
+
+.label-sku {
+    font-size: 9pt;
+    text-align: center;
+    margin: 0;
+    line-height: 1;
+    font-family: 'Courier New', Courier, monospace;
+    /* Ideal para SKUs */
+    letter-spacing: 0.2px;
+    color: #000;
+    padding-bottom: 0.5mm;
+}
+
+.label-price {
+    font-size: 13pt;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+    line-height: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    padding-bottom: 0.5mm;
+}
+
+/* ==========================================================================
+   REGLAS ESPECÍFICAS DE IMPRESIÓN
+   ========================================================================== */
+@media print {
+
+    /* Define explícitamente el tamaño de la página de la impresora térmica/continua */
+    @page {
+        size: 103mm 24.5mm;
+        margin: 0;
+    }
+
+    /* Oculta toda la UI, botones, y fondos */
+    body * {
+        visibility: hidden;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background-color: transparent;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Vuelve visible exclusivamente las filas a imprimir */
+    #printArea,
+    #printArea * {
+        visibility: visible;
+    }
+
+    /* El área de impresión se posiciona arriba a la izquierda eliminando centrado */
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        gap: 0;
+        /* Importantísimo: elimina el 'gap' decorativo de la preview entre filas */
+        display: block;
+        /* Deja de ser flex para el cuerpo de impresión general */
+    }
+
+    /* Cada fila salta obligatoriamente de página para el rollo térmico */
+    .label-row {
+        outline: none;
+        /* Elimina la línea punteada de la guía */
+        page-break-after: always;
+        /* Causa un corte/salto al terminar cada fila */
+        break-after: page;
+        margin: 0;
+    }
+}
