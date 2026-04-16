@@ -1,40 +1,153 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Etiquetas de Código de Barras</title>
-    <!-- Hoja de estilos -->
+    <title>CAMITEX — Generador de Etiquetas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- SheetJS (xlsx) para leer archivos Excel (Browser-side) -->
+    <!-- SheetJS (xlsx) para leer archivos Excel -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <!-- JsBarcode para generar los códigos de barras en el navegador -->
+    <!-- JsBarcode para generar los códigos de barras -->
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
+
 <body>
-    <div class="no-print container">
-        <h1>Generador de Etiquetas (50x24.5mm)</h1>
-        <p>Sube un archivo Excel (.xlsx) con las siguientes columnas requeridas: <br>
-           <strong>TEXTO, SKU, PRECIO, CANTIDAD</strong>
-        </p>
-        
-        <div class="controls">
-            <input type="file" id="excelFile" accept=".xlsx, .xls" />
-            <button id="processBtn">Procesar Archivo</button>
-            <button id="printBtn" disabled>Imprimir Etiquetas</button>
-            <button id="resetBtn">Limpiar / Reiniciar</button>
+
+    <!-- ======================================================
+         PANTALLA HOME
+    ====================================================== -->
+    <div id="screen-home" class="screen active no-print">
+        <div class="home-wrapper">
+            <div class="home-header">
+                <div class="home-logo">
+                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="36" height="36" rx="10" fill="url(#logoGrad)" />
+                        <rect x="8" y="8" width="4" height="20" rx="1" fill="white" />
+                        <rect x="14" y="8" width="2" height="20" rx="1" fill="white" opacity="0.7" />
+                        <rect x="18" y="8" width="5" height="20" rx="1" fill="white" />
+                        <rect x="25" y="8" width="3" height="20" rx="1" fill="white" opacity="0.85" />
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#6366f1" />
+                                <stop offset="1" stop-color="#8b5cf6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>CAMITEX</span>
+                </div>
+                <p class="home-subtitle">Sistema de generación de etiquetas de código de barras</p>
+            </div>
+
+            <div class="home-cards">
+                <button class="home-card" id="btnGoMasive">
+                    <div class="home-card-icon home-card-icon--blue">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" />
+                            <rect x="14" y="3" width="7" height="7" />
+                            <rect x="3" y="14" width="7" height="7" />
+                            <rect x="14" y="14" width="7" height="7" />
+                        </svg>
+                    </div>
+                    <div class="home-card-body">
+                        <h2>Crear etiquetas masivamente</h2>
+                        <p>Subí un archivo Excel con múltiples productos y generá todas las etiquetas de una sola vez.
+                        </p>
+                    </div>
+                    <div class="home-card-arrow">→</div>
+                </button>
+
+                <button class="home-card" id="btnGoSingle">
+                    <div class="home-card-icon home-card-icon--violet">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="16" rx="2" />
+                            <line x1="8" y1="9" x2="16" y2="9" />
+                            <line x1="8" y1="12" x2="14" y2="12" />
+                            <line x1="8" y1="15" x2="11" y2="15" />
+                        </svg>
+                    </div>
+                    <div class="home-card-body">
+                        <h2>Crear etiqueta única</h2>
+                        <p>Ingresá manualmente el nombre, SKU y precio de un producto para generar una sola etiqueta al
+                            instante.</p>
+                    </div>
+                    <div class="home-card-arrow">→</div>
+                </button>
+            </div>
         </div>
-
-        <div id="status" class="status-message"></div>
-        <div id="stats" class="stats-message"></div>
     </div>
 
-    <!-- Área exclusiva para previsualización e impresión. Todo lo que cae dentro de esta área usa tamaños reales en milímetros. -->
-    <div id="printArea" class="print-area">
-        <!-- Las etiquetas se generarán e insertarán aquí dinámicamente -->
+    <!-- ======================================================
+         PANTALLA MASIVO
+    ====================================================== -->
+    <div id="screen-masive" class="screen no-print">
+        <div class="container">
+            <div class="screen-nav">
+                <button class="btn-back" id="btnBackMasive">← Volver</button>
+            </div>
+            <h1>Crear etiquetas masivamente</h1>
+            <p>Subí un archivo Excel (.xlsx) con las columnas requeridas:<br>
+                <strong>TEXTO, SKU, PRECIO, CANTIDAD</strong>
+            </p>
+
+            <div class="controls">
+                <input type="file" id="excelFile" accept=".xlsx, .xls" />
+                <button id="processBtn">Procesar Archivo</button>
+                <button id="printBtn" disabled>Imprimir Etiquetas</button>
+                <button id="resetBtn">Limpiar / Reiniciar</button>
+            </div>
+
+            <div id="status" class="status-message"></div>
+            <div id="stats" class="stats-message"></div>
+        </div>
     </div>
 
-    <!-- Lógica de la aplicación -->
+    <!-- ======================================================
+         PANTALLA ETIQUETA ÚNICA
+    ====================================================== -->
+    <div id="screen-single" class="screen no-print">
+        <div class="container">
+            <div class="screen-nav">
+                <button class="btn-back" id="btnBackSingle">← Volver</button>
+            </div>
+            <h1>Crear etiqueta única</h1>
+            <p>Completá los campos y hacé click en <strong>Generar etiqueta</strong> para previsualizar e imprimir.</p>
+
+            <div class="single-form">
+                <div class="single-form-group">
+                    <label for="singleNombre">Nombre del producto</label>
+                    <input type="text" id="singleNombre" placeholder="Ej: Remera Rip Curl X - Blanca" />
+                </div>
+                <div class="single-form-group">
+                    <label for="singleSKU">SKU</label>
+                    <input type="text" id="singleSKU" placeholder="Ej: 000WB0-4090-XL" />
+                </div>
+                <div class="single-form-group">
+                    <label for="singlePrecio">Precio</label>
+                    <input type="number" id="singlePrecio" placeholder="Ej: 4990" min="0" />
+                </div>
+                <div class="single-form-actions">
+                    <button id="singleGenerateBtn">Generar etiqueta</button>
+                    <button id="singlePrintBtn" disabled>Imprimir</button>
+                    <button id="singleResetBtn" class="btn-danger">Limpiar</button>
+                </div>
+            </div>
+
+            <div id="singleStatus" class="status-message"></div>
+        </div>
+    </div>
+
+    <!-- ======================================================
+         ÁREA DE IMPRESIÓN / PREVISUALIZACIÓN
+         (compartida entre ambas pantallas)
+    ====================================================== -->
+    <div id="printArea" class="print-area"></div>
+
     <script src="app.js"></script>
 </body>
+
 </html>
