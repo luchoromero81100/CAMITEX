@@ -199,8 +199,14 @@
                         </div>
                         <div class="win95-form-row">
                             <label for="singlePrecio" class="win95-label">Precio:</label>
-                            <input type="number" id="singlePrecio" class="win95-input win95-input-short"
-                                placeholder="Ej: 4990" min="0" />
+                            <div class="win95-number-input">
+                                <input type="number" id="singlePrecio" class="win95-input win95-input-short"
+                                    placeholder="Ej: 4990" min="0" />
+                                <div class="win95-spin-buttons">
+                                    <button class="win95-spin-btn" id="btnPrecioUp" type="button">▲</button>
+                                    <button class="win95-spin-btn" id="btnPrecioDown" type="button">▼</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </fieldset>

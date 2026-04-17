@@ -293,6 +293,13 @@ document.addEventListener('DOMContentLoaded', () => {
     singlePrintBtn.addEventListener('click', () => window.print());
     singleResetBtn.addEventListener('click', resetSingle);
 
+    document.getElementById('btnPrecioUp').addEventListener('click', () => {
+        singlePrecio.value = Math.max(0, (parseInt(singlePrecio.value) || 0) + 10);
+    });
+    document.getElementById('btnPrecioDown').addEventListener('click', () => {
+        singlePrecio.value = Math.max(0, (parseInt(singlePrecio.value) || 0) - 10);
+    });
+
     function generateSingleLabel() {
         const nombre = singleNombre.value.trim();
         const sku    = singleSKU.value.trim();

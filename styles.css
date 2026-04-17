@@ -357,6 +357,58 @@ body {
     border-color: #000000 #ffffff #ffffff #000000;
 }
 
+/* Hide native number spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.win95-number-input {
+    display: flex;
+    align-items: stretch;
+    width: 220px;
+}
+
+.win95-input-short {
+    border-right: none !important;
+}
+
+.win95-spin-buttons {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 20px;
+}
+
+.win95-spin-btn {
+    height: 43%;
+    width: 100%;
+    padding: 0;
+    margin-left: 2px;
+    background: var(--win-gray);
+    border: 1px solid;
+    border-color: #ffffff #000000 #000000 #ffffff;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.win95-spin-btn:active {
+    border-color: #000000 #ffffff #ffffff #000000;
+    padding-top: 1px;
+}
+
 .win95-form-row {
     margin-bottom: 12px;
 }
