@@ -55,27 +55,27 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 40px;
+    height: 50px;
     background: var(--win-gray);
     border-top: 2px solid #dfdfdf;
     display: flex;
     align-items: center;
-    padding: 2px 4px;
-    gap: 6px;
+    padding: 3px 6px;
+    gap: 8px;
     z-index: 1000;
 }
 
 .win95-start-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
-    height: 32px;
-    padding: 2px 10px;
+    gap: 8px;
+    height: 40px;
+    padding: 3px 12px;
     background: var(--win-gray);
     border: 2px solid;
     border-color: #ffffff #808080 #808080 #ffffff;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 18px;
     cursor: pointer;
     box-shadow: inset 1px 1px #dfdfdf;
 }
@@ -86,7 +86,7 @@ body {
 }
 
 .start-logo {
-    height: 22px;
+    height: 28px;
     width: auto;
 }
 
@@ -96,10 +96,10 @@ body {
 
 .taskbar-vertical-divider {
     width: 2px;
-    height: 32px;
+    height: 40px;
     border-left: 1px solid #808080;
     border-right: 1px solid #ffffff;
-    margin: 0 4px;
+    margin: 0 5px;
 }
 
 .win95-taskbar-apps {
@@ -110,14 +110,14 @@ body {
 .win95-app-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    height: 32px;
-    max-width: 200px;
-    padding: 2px 10px;
+    gap: 10px;
+    height: 40px;
+    max-width: 250px;
+    padding: 3px 12px;
     background: var(--win-gray);
     border: 2px solid;
     border-color: #ffffff #808080 #808080 #ffffff;
-    font-size: 13px;
+    font-size: 16px;
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap;
@@ -132,19 +132,19 @@ body {
 
 
 .app-logo {
-    height: 22px;
-    width: 22px;
+    height: 28px;
+    width: 28px;
     object-fit: contain;
 }
 
 .taskbar-clock {
-    padding: 2px 12px;
+    padding: 3px 15px;
     background: var(--win-gray);
     border: 2px solid;
     border-color: #808080 #ffffff #ffffff #808080;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
-    min-width: 80px;
+    min-width: 100px;
     text-align: center;
 }
 
@@ -153,12 +153,12 @@ body {
    ========================================================================== */
 .win95-window {
     background: var(--win-gray);
-    border: 2px solid;
+    border: 3px solid;
     border-color: #dfdfdf #000000 #000000 #dfdfdf;
     box-shadow: 1px 1px 0 0 #ffffff inset, -1px -1px 0 0 #808080 inset;
     display: none;
     flex-direction: column;
-    min-width: 320px;
+    min-width: 400px;
 }
 
 .win95-window.active {
@@ -166,37 +166,37 @@ body {
 }
 
 .home-window {
-    width: 600px;
+    width: 750px;
 }
 
 .masive-window,
 .single-window {
-    width: 850px;
+    width: 1062px;
     max-width: 95vw;
 }
 
 .win95-titlebar {
-    height: 28px;
+    height: 35px;
     background: var(--win-blue);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2px 2px 2px 4px;
+    padding: 3px 3px 3px 5px;
     margin: 2px;
 }
 
 .win95-titlebar-left {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     color: white;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 19px;
 }
 
 .titlebar-icon {
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
 }
 
 .win95-titlebar-buttons {
@@ -205,12 +205,12 @@ body {
 }
 
 .tb-btn {
-    width: 24px;
-    height: 22px;
+    width: 30px;
+    height: 28px;
     background: var(--win-gray);
     border: 1px solid;
     border-color: #ffffff #000000 #000000 #ffffff;
-    font-size: 12px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,15 +228,15 @@ body {
 
 .tb-back-inline {
     width: auto;
-    padding: 0 4px;
+    padding: 0 5px;
 }
 
 .win95-menubar {
     display: flex;
-    padding: 4px 8px;
-    font-size: 13px;
+    padding: 5px 10px;
+    font-size: 16px;
     border-bottom: 1px solid #808080;
-    gap: 16px;
+    gap: 20px;
 }
 
 .menubar-item {
@@ -244,7 +244,7 @@ body {
 }
 
 .win95-window-body {
-    padding: 16px;
+    padding: 20px;
     overflow-y: auto;
     max-height: 80vh;
 }
@@ -252,9 +252,9 @@ body {
 .win95-statusbar {
     background: var(--win-gray);
     border-top: 1px solid #808080;
-    margin: 2px;
-    padding: 4px 8px;
-    font-size: 13px;
+    margin: 3px;
+    padding: 5px 10px;
+    font-size: 16px;
     display: flex;
 }
 
@@ -263,52 +263,52 @@ body {
    ========================================================================== */
 .win95-h1 {
     margin: 0;
-    font-size: 32px;
+    font-size: 40px;
     font-weight: 900;
     letter-spacing: -1px;
 }
 
 .win95-subtitle {
-    margin: 2px 0 0 0;
-    font-size: 13px;
+    margin: 3px 0 0 0;
+    font-size: 16px;
     color: #444;
 }
 
 .win95-separator {
-    height: 2px;
+    height: 3px;
     border-top: 1px solid #808080;
     border-bottom: 1px solid #ffffff;
-    margin: 16px 0;
+    margin: 20px 0;
 }
 
 .win95-fieldset {
-    border: 2px solid;
+    border: 3px solid;
     border-color: #808080 #ffffff #ffffff #808080;
-    margin-bottom: 16px;
-    padding: 16px;
+    margin-bottom: 20px;
+    padding: 20px;
 }
 
 .win95-fieldset legend {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: bold;
-    padding: 0 4px;
+    padding: 0 5px;
 }
 
 .win95-btn {
     background: var(--win-gray);
-    border: 2px solid;
+    border: 3px solid;
     border-color: #ffffff #000000 #000000 #ffffff;
-    padding: 8px 16px;
+    padding: 10px 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 18px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .win95-btn:active:not(:disabled) {
     border-color: #000000 #ffffff #ffffff #000000;
-    padding: 7px 11px 5px 13px;
+    padding: 9px 14px 7px 16px;
 }
 
 .win95-btn:disabled {
@@ -333,23 +333,23 @@ body {
 .win95-input,
 .win95-file-input {
     background: #ffffff;
-    border: 2px solid;
+    border: 3px solid;
     border-color: #808080 #ffffff #ffffff #808080;
-    padding: 4px;
+    padding: 5px;
     font-family: 'Win95Font', monospace;
-    font-size: 15px;
+    font-size: 19px;
     outline: none;
     width: 100%;
 }
 
 .win95-file-input::file-selector-button {
     background: var(--win-gray);
-    border: 2px solid;
+    border: 3px solid;
     border-color: #ffffff #000000 #000000 #ffffff;
-    padding: 8px 16px;
-    margin-right: 8px;
+    padding: 10px 20px;
+    margin-right: 10px;
     font-family: 'Win95Font', sans-serif;
-    font-size: 13px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -371,7 +371,7 @@ input[type=number] {
 .win95-number-input {
     display: flex;
     align-items: stretch;
-    width: 220px;
+    width: 275px;
 }
 
 .win95-input-short {
@@ -384,19 +384,19 @@ input[type=number] {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 2px;
-    width: 20px;
+    gap: 3px;
+    width: 25px;
 }
 
 .win95-spin-btn {
     height: 43%;
     width: 100%;
     padding: 0;
-    margin-left: 2px;
+    margin-left: 3px;
     background: var(--win-gray);
     border: 1px solid;
     border-color: #ffffff #000000 #000000 #ffffff;
-    font-size: 8px;
+    font-size: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -410,13 +410,13 @@ input[type=number] {
 }
 
 .win95-form-row {
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .win95-label {
     display: block;
-    font-size: 11px;
-    margin-bottom: 4px;
+    font-size: 14px;
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
@@ -425,31 +425,31 @@ input[type=number] {
    ========================================================================== */
 .home-header-w95 {
     display: flex;
-    gap: 16px;
+    gap: 20px;
     align-items: center;
 }
 
 .home-logo-img {
-    width: 64px;
+    width: 80px;
     height: auto;
 }
 
 .home-options {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 15px;
 }
 
 .win95-option-btn {
     background: var(--win-gray);
-    border: 2px solid;
+    border: 3px solid;
     border-color: #ffffff #000000 #000000 #ffffff;
-    padding: 12px;
+    padding: 15px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     transition: none;
 }
 
@@ -459,28 +459,28 @@ input[type=number] {
 
 .win95-controls {
     display: flex;
-    gap: 12px;
+    gap: 15px;
 }
 
 .option-img {
-    width: 150px;
-    height: 60px;
-    margin: 5px 0 10px 0;
+    width: 188px;
+    height: 75px;
+    margin: 6px 0 12px 0;
     object-fit: contain;
 }
 
 .option-label {
-    font-size: 15px;
+    font-size: 19px;
     text-align: center;
 }
 
 /* MENSAJES */
 .win95-msg {
-    margin-top: 12px;
-    padding: 8px;
-    border: 2px inset;
-    font-size: 12px;
-    min-height: 32px;
+    margin-top: 15px;
+    padding: 10px;
+    border: 3px inset;
+    font-size: 15px;
+    min-height: 40px;
 }
 
 .win95-msg-error {
@@ -514,9 +514,9 @@ input[type=number] {
 .win95-preview-panel {
     position: fixed;
     top: 50%;
-    right: 20px;
+    right: 25px;
     transform: translateY(-50%);
-    width: 320px;
+    width: 400px;
 }
 
 /* Estilos para las etiquetas reales (esto se mantiene igual para no romper impresión) */
