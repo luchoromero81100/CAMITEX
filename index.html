@@ -5,147 +5,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAMITEX — Generador de Etiquetas</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- SheetJS (xlsx) para leer archivos Excel -->
+    <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <!-- JsBarcode para generar los códigos de barras -->
+    <!-- JsBarcode -->
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 
 <body>
 
-    <!-- ======================================================
-         PANTALLA HOME
-    ====================================================== -->
-    <div id="screen-home" class="screen active no-print">
-        <div class="home-wrapper">
-            <div class="home-header">
-                <div class="home-logo">
-                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="36" height="36" rx="10" fill="url(#logoGrad)" />
-                        <rect x="8" y="8" width="4" height="20" rx="1" fill="white" />
-                        <rect x="14" y="8" width="2" height="20" rx="1" fill="white" opacity="0.7" />
-                        <rect x="18" y="8" width="5" height="20" rx="1" fill="white" />
-                        <rect x="25" y="8" width="3" height="20" rx="1" fill="white" opacity="0.85" />
-                        <defs>
-                            <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#6366f1" />
-                                <stop offset="1" stop-color="#8b5cf6" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
+    <!-- =====================================================
+         DESKTOP WIN95
+    ===================================================== -->
+    <div id="win95-desktop" class="no-print">
+
+        <!-- TASKBAR -->
+        <div class="win95-taskbar">
+            <!-- Start button -->
+            <button class="win95-start-btn">
+                <img src="imgs/taskBar/windows95.png" alt="Win" class="start-logo" />
+                <span>Inicio</span>
+            </button>
+            <div class="taskbar-vertical-divider"></div>
+            <!-- Taskbar Apps -->
+            <div class="win95-taskbar-apps">
+                <button class="win95-app-item">
+                    <img src="imgs/camitexlogo.png" alt="Logo" class="app-logo" />
                     <span>CAMITEX</span>
-                </div>
-                <p class="home-subtitle">Sistema de generación de etiquetas de código de barras</p>
-            </div>
-
-            <div class="home-cards">
-                <button class="home-card" id="btnGoMasive">
-                    <div class="home-card-icon home-card-icon--blue">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="7" height="7" />
-                            <rect x="14" y="3" width="7" height="7" />
-                            <rect x="3" y="14" width="7" height="7" />
-                            <rect x="14" y="14" width="7" height="7" />
-                        </svg>
-                    </div>
-                    <div class="home-card-body">
-                        <h2>Crear etiquetas masivamente</h2>
-                        <p>Subí un archivo Excel con múltiples productos y generá todas las etiquetas de una sola vez.
-                        </p>
-                    </div>
-                    <div class="home-card-arrow">→</div>
                 </button>
-
-                <button class="home-card" id="btnGoSingle">
-                    <div class="home-card-icon home-card-icon--violet">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="16" rx="2" />
-                            <line x1="8" y1="9" x2="16" y2="9" />
-                            <line x1="8" y1="12" x2="14" y2="12" />
-                            <line x1="8" y1="15" x2="11" y2="15" />
-                        </svg>
-                    </div>
-                    <div class="home-card-body">
-                        <h2>Crear etiqueta única</h2>
-                        <p>Ingresá manualmente el nombre, SKU y precio de un producto para generar una sola etiqueta al
-                            instante.</p>
-                    </div>
-                    <div class="home-card-arrow">→</div>
+                <button class="win95-app-item">
+                    <img src="imgs/taskBar/internetExplorer.png" alt="IE" class="app-logo" />
+                    <span>Internet Explorer</span>
                 </button>
             </div>
+            <div class="taskbar-divider"></div>
+            <div class="taskbar-clock" id="taskbarClock">00:00</div>
         </div>
-    </div>
 
-    <!-- ======================================================
-         PANTALLA MASIVO
-    ====================================================== -->
-    <div id="screen-masive" class="screen no-print">
-        <div class="container">
-            <div class="screen-nav">
-                <button class="btn-back" id="btnBackMasive">← Volver</button>
-            </div>
-            <h1>Crear etiquetas masivamente</h1>
-            <p>Subí un archivo Excel (.xlsx) con las columnas requeridas:<br>
-                <strong>TEXTO, SKU, PRECIO, CANTIDAD</strong>
-            </p>
-
-            <div class="controls">
-                <input type="file" id="excelFile" accept=".xlsx, .xls" />
-                <button id="processBtn">Procesar Archivo</button>
-                <button id="printBtn" disabled>Imprimir Etiquetas</button>
-                <button id="resetBtn">Limpiar / Reiniciar</button>
+        <!-- =====================================================
+             PANTALLA HOME — ventana principal centrada
+        ===================================================== -->
+        <div id="screen-home" class="screen active win95-window home-window">
+            <!-- Title bar -->
+            <div class="win95-titlebar">
+                <div class="win95-titlebar-left">
+                    <img src="imgs/camitexlogo.png" alt="Logo" class="titlebar-icon" />
+                    <span>CAMITEX — Sistema de Etiquetas</span>
+                </div>
+                <div class="win95-titlebar-buttons">
+                    <button class="tb-btn tb-minimize">_</button>
+                    <button class="tb-btn tb-maximize">□</button>
+                    <button class="tb-btn tb-close">✕</button>
+                </div>
             </div>
 
-            <div id="status" class="status-message"></div>
-            <div id="stats" class="stats-message"></div>
+            <!-- Menu bar -->
+            <div class="win95-menubar">
+                <span class="menubar-item"><u>A</u>rchivo</span>
+                <span class="menubar-item"><u>H</u>erramientas</span>
+                <span class="menubar-item"><u>A</u>yuda</span>
+            </div>
+
+            <!-- Window body -->
+            <div class="win95-window-body home-body">
+                <!-- Logo header -->
+                <div class="home-header-w95">
+                    <img src="imgs/camitexlogo.png" alt="CAMITEX Logo" class="home-logo-img" />
+                    <div class="home-header-text">
+                        <h1 class="win95-h1">CAMITEX</h1>
+                        <p class="win95-subtitle">Sistema de generación de etiquetas de código de barras</p>
+                    </div>
+                </div>
+
+                <!-- Separator -->
+                <div class="win95-separator"></div>
+
+                <!-- Option buttons -->
+                <p class="win95-instructions">Seleccioná una opción para comenzar:</p>
+
+                <div class="home-options">
+                    <!-- MASIVO -->
+                    <button class="win95-option-btn" id="btnGoMasive">
+                        <img src="imgs/impMasive.png" alt="Masivo" class="option-img" />
+                        <div class="option-label">Crear etiquetas<br><strong>masivamente</strong></div>
+                    </button>
+
+                    <!-- ÚNICO -->
+                    <button class="win95-option-btn" id="btnGoSingle">
+                        <img src="imgs/impSingle.png" alt="Única" class="option-img" />
+                        <div class="option-label">Crear etiqueta<br><strong>única</strong></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status bar -->
+            <div class="win95-statusbar">
+                <span>Listo</span>
+            </div>
         </div>
-    </div>
 
-    <!-- ======================================================
-         PANTALLA ETIQUETA ÚNICA
-    ====================================================== -->
-    <div id="screen-single" class="screen no-print">
-        <div class="container">
-            <div class="screen-nav">
-                <button class="btn-back" id="btnBackSingle">← Volver</button>
-            </div>
-            <h1>Crear etiqueta única</h1>
-            <p>Completá los campos y hacé click en <strong>Generar etiqueta</strong> para previsualizar e imprimir.</p>
-
-            <div class="single-form">
-                <div class="single-form-group">
-                    <label for="singleNombre">Nombre del producto</label>
-                    <input type="text" id="singleNombre" placeholder="Ej: Remera Rip Curl X - Blanca" />
+        <!-- =====================================================
+             PANTALLA MASIVO
+        ===================================================== -->
+        <div id="screen-masive" class="screen win95-window masive-window">
+            <div class="win95-titlebar">
+                <div class="win95-titlebar-left">
+                    <img src="imgs/camitexlogo.png" alt="Logo" class="titlebar-icon" />
+                    <span>Crear etiquetas masivamente</span>
                 </div>
-                <div class="single-form-group">
-                    <label for="singleSKU">SKU</label>
-                    <input type="text" id="singleSKU" placeholder="Ej: 000WB0-4090-XL" />
-                </div>
-                <div class="single-form-group">
-                    <label for="singlePrecio">Precio</label>
-                    <input type="number" id="singlePrecio" placeholder="Ej: 4990" min="0" />
-                </div>
-                <div class="single-form-actions">
-                    <button id="singleGenerateBtn">Generar etiqueta</button>
-                    <button id="singlePrintBtn" disabled>Imprimir</button>
-                    <button id="singleResetBtn" class="btn-danger">Limpiar</button>
+                <div class="win95-titlebar-buttons">
+                    <button class="tb-btn tb-back-inline" id="btnBackMasive">← Inicio</button>
+                    <button class="tb-btn tb-close" onclick="void(0)">✕</button>
                 </div>
             </div>
 
-            <div id="singleStatus" class="status-message"></div>
+            <div class="win95-menubar">
+                <span class="menubar-item"><u>A</u>rchivo</span>
+                <span class="menubar-item"><u>P</u>rocesar</span>
+                <span class="menubar-item"><u>A</u>yuda</span>
+            </div>
+
+            <div class="win95-window-body">
+                <!-- Inner panel -->
+                <fieldset class="win95-fieldset">
+                    <legend>Archivo Excel</legend>
+                    <p class="win95-hint">Seleccioná un archivo <strong>.xlsx</strong> con las columnas:
+                        <code>TEXTO, SKU, PRECIO, CANTIDAD</code>
+                    </p>
+                    <div class="win95-controls">
+                        <input type="file" id="excelFile" accept=".xlsx, .xls" class="win95-file-input" />
+                    </div>
+                </fieldset>
+
+                <fieldset class="win95-fieldset">
+                    <legend>Acciones</legend>
+                    <div class="win95-controls">
+                        <button id="processBtn" class="win95-btn">
+                            <span class="btn-icon"></span> Procesar Archivo
+                        </button>
+                        <button id="printBtn" disabled class="win95-btn win95-btn-green">
+                            <span class="btn-icon"></span> Imprimir Etiquetas
+                        </button>
+                        <button id="resetBtn" class="win95-btn win95-btn-red">
+                            <span class="btn-icon">X</span> Limpiar / Reiniciar
+                        </button>
+                    </div>
+                </fieldset>
+
+                <!-- Messages -->
+                <div id="status" class="win95-msg win95-msg-error"></div>
+                <div id="stats" class="win95-msg win95-msg-success"></div>
+            </div>
+
+            <div class="win95-statusbar">
+                <span id="masiveStatusBar">Esperando archivo…</span>
+            </div>
         </div>
-    </div>
 
-    <!-- ======================================================
-         ÁREA DE IMPRESIÓN / PREVISUALIZACIÓN
-         (compartida entre ambas pantallas)
-    ====================================================== -->
+        <!-- =====================================================
+             PANTALLA ETIQUETA ÚNICA
+        ===================================================== -->
+        <div id="screen-single" class="screen win95-window single-window">
+            <div class="win95-titlebar">
+                <div class="win95-titlebar-left">
+                    <img src="imgs/camitexlogo.png" alt="Logo" class="titlebar-icon" />
+                    <span>Crear etiqueta única</span>
+                </div>
+                <div class="win95-titlebar-buttons">
+                    <button class="tb-btn tb-back-inline" id="btnBackSingle">← Inicio</button>
+                    <button class="tb-btn tb-close" onclick="void(0)">✕</button>
+                </div>
+            </div>
+
+            <div class="win95-menubar">
+                <span class="menubar-item"><u>A</u>rchivo</span>
+                <span class="menubar-item"><u>E</u>tiqueta</span>
+                <span class="menubar-item"><u>A</u>yuda</span>
+            </div>
+
+            <div class="win95-window-body">
+                <fieldset class="win95-fieldset">
+                    <legend>Datos del producto</legend>
+
+                    <div class="win95-form">
+                        <div class="win95-form-row">
+                            <label for="singleNombre" class="win95-label">Nombre del producto:</label>
+                            <input type="text" id="singleNombre" class="win95-input"
+                                placeholder="Ej: Remera Rip Curl X - Blanca" />
+                        </div>
+                        <div class="win95-form-row">
+                            <label for="singleSKU" class="win95-label">SKU:</label>
+                            <input type="text" id="singleSKU" class="win95-input" placeholder="Ej: 000WB0-4090-XL" />
+                        </div>
+                        <div class="win95-form-row">
+                            <label for="singlePrecio" class="win95-label">Precio:</label>
+                            <input type="number" id="singlePrecio" class="win95-input win95-input-short"
+                                placeholder="Ej: 4990" min="0" />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="win95-fieldset">
+                    <legend>Acciones</legend>
+                    <div class="win95-controls">
+                        <button id="singleGenerateBtn" class="win95-btn win95-btn-primary">
+                            <span class="btn-icon"></span> Generar etiqueta
+                        </button>
+                        <button id="singlePrintBtn" disabled class="win95-btn win95-btn-green">
+                            <span class="btn-icon"></span> Imprimir
+                        </button>
+                        <button id="singleResetBtn" class="win95-btn win95-btn-red">
+                            <span class="btn-icon">X</span> Limpiar
+                        </button>
+                    </div>
+                </fieldset>
+
+                <div id="singleStatus" class="win95-msg win95-msg-error"></div>
+            </div>
+
+            <div class="win95-statusbar">
+                <span>Completá los campos y presioná Generar etiqueta</span>
+            </div>
+        </div>
+
+    </div><!-- fin #win95-desktop -->
+
+    <!-- =====================================================
+         ÁREA DE IMPRESIÓN (compartida, siempre en el DOM)
+    ===================================================== -->
     <div id="printArea" class="print-area"></div>
+
+    <!-- Preview panel (visible en pantalla debajo de la ventana) -->
+    <div id="previewPanel" class="win95-preview-panel no-print" style="display:none;">
+        <div class="win95-window preview-window">
+            <div class="win95-titlebar">
+                <div class="win95-titlebar-left">
+                    <span>Previsualización de etiquetas</span>
+                </div>
+            </div>
+            <div class="win95-window-body" style="padding:12px;">
+                <!-- El printArea se mueve aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================
     // REFERENCIAS AL DOM
     // =========================================================
-    // Pantallas
+    // Pantallas (Ventanas)
     const screenHome   = document.getElementById('screen-home');
     const screenMasive = document.getElementById('screen-masive');
     const screenSingle = document.getElementById('screen-single');
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn   = document.getElementById('resetBtn');
     const statusDiv  = document.getElementById('status');
     const statsDiv   = document.getElementById('stats');
+    const masiveStatusBar = document.getElementById('masiveStatusBar');
 
     // Controles pantalla ÚNICO
     const singleNombre      = document.getElementById('singleNombre');
@@ -31,15 +32,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const singleResetBtn    = document.getElementById('singleResetBtn');
     const singleStatus      = document.getElementById('singleStatus');
 
-    // Área de impresión compartida
+    // Previsualización Desktop
+    const previewPanel = document.getElementById('previewPanel');
     const printArea = document.getElementById('printArea');
+    const taskbarClock = document.getElementById('taskbarClock');
 
     // =========================================================
-    // NAVEGACIÓN ENTRE PANTALLAS
+    // CLOCK TASKBAR
+    // =========================================================
+    function updateClock() {
+        const now = new Date();
+        const hrs = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        taskbarClock.textContent = `${hrs}:${min}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // =========================================================
+    // NAVEGACIÓN ENTRE VENTANAS
     // =========================================================
     function showScreen(screen) {
         [screenHome, screenMasive, screenSingle].forEach(s => s.classList.remove('active'));
         screen.classList.add('active');
+        
+        // Ocultar previsualización al volver al inicio
+        if (screen === screenHome) {
+            previewPanel.style.display = 'none';
+        }
     }
 
     btnGoMasive.addEventListener('click', () => {
@@ -66,10 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // UTILIDADES COMPARTIDAS
     // =========================================================
 
-    /**
-     * Formatea un precio numérico con el formato argentino.
-     * Ejemplo: 1990 → "$ 1.990"
-     */
     function formatPrice(value) {
         if (value === undefined || value === null || value === "") return "$ 0";
         let num = parseInt(value, 10);
@@ -80,18 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function clearPrintArea() {
         printArea.innerHTML = "";
+        previewPanel.style.display = 'none';
     }
 
     // =========================================================
-    // GENERADOR DE ETIQUETAS (NÚCLEO COMPARTIDO)
-    // Recibe un array de { texto, sku, precio (ya formateado) }
-    // y renderiza los pares en el printArea.
+    // GENERADOR DE ETIQUETAS
     // =========================================================
     function renderLabels(expandedLabels) {
-        clearPrintArea();
+        printArea.innerHTML = "";
+        previewPanel.style.display = 'block';
         let svgIdCounter = 0;
 
-        // Agrupar en pares izquierda / derecha
         const pairs = [];
         for (let i = 0; i < expandedLabels.length; i += 2) {
             pairs.push({
@@ -104,16 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'label-row';
 
-            // Etiqueta izquierda
             const leftLabel = createLabelElement(pair.left, svgIdCounter++);
             rowDiv.appendChild(leftLabel);
 
-            // Gap de 3mm
             const gapDiv = document.createElement('div');
             gapDiv.className = 'label-gap';
             rowDiv.appendChild(gapDiv);
 
-            // Etiqueta derecha o placeholder vacío
             if (pair.right) {
                 const rightLabel = createLabelElement(pair.right, svgIdCounter++);
                 rowDiv.appendChild(rightLabel);
@@ -126,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             printArea.appendChild(rowDiv);
         });
 
-        // Generar barcodes sobre todos los SVGs creados
+        // Generar barcodes
         expandedLabels.forEach((label, i) => {
             if (label.sku) {
                 try {
@@ -149,9 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return pairs.length;
     }
 
-    /**
-     * Construye el elemento DOM de una etiqueta individual (50x24.5mm).
-     */
     function createLabelElement(data, idIndex) {
         const wrapper = document.createElement('div');
         wrapper.className = 'label';
@@ -184,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =========================================================
-    // PANTALLA MASIVO — LÓGICA
+    // LÓGICA MASIVO
     // =========================================================
     processBtn.addEventListener('click', processFile);
     printBtn.addEventListener('click', () => window.print());
@@ -193,17 +202,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function showError(msg) {
         statusDiv.textContent = msg;
         statsDiv.textContent  = "";
+        if (masiveStatusBar) masiveStatusBar.textContent = "Error al procesar.";
     }
 
     function showStats(msg) {
         statusDiv.textContent = "";
         statsDiv.textContent  = msg;
+        if (masiveStatusBar) masiveStatusBar.textContent = "Proceso completado.";
     }
 
     function resetMasive() {
         fileInput.value       = "";
         statusDiv.textContent = "";
         statsDiv.textContent  = "";
+        if (masiveStatusBar) masiveStatusBar.textContent = "Esperando archivo…";
         clearPrintArea();
         printBtn.disabled = true;
     }
@@ -225,14 +237,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
                 if (jsonData.length === 0) {
-                    showError("El archivo está vacío o no contiene datos tabulares válidos.");
+                    showError("El archivo está vacío.");
                     return;
                 }
 
                 validateAndGenerateLabels(jsonData);
             } catch (err) {
                 console.error(err);
-                showError("Hubo un error al procesar el archivo. Asegurate de que sea un Excel (.xlsx) válido.");
+                showError("Error al procesar archivo.");
             }
         };
         reader.readAsArrayBuffer(file);
@@ -244,12 +256,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const missingCols = requiredCols.filter(col => !(col in firstRow));
 
         if (missingCols.length > 0) {
-            showError(`El Excel no tiene el formato correcto. Faltan las columnas: ${missingCols.join(', ')}`);
+            showError(`Faltan columnas: ${missingCols.join(', ')}`);
             return;
         }
 
         const expandedLabels = [];
-
         for (let i = 0; i < data.length; i++) {
             const row = data[i];
             const texto  = String(row["TEXTO"]  || "").trim();
@@ -266,17 +277,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (expandedLabels.length === 0) {
-            showError("Ningún producto cumple con los criterios. Verificá que CANTIDAD > 0 y que haya SKUs/Textos.");
+            showError("Sin etiquetas para generar.");
             return;
         }
 
         const totalPairs = renderLabels(expandedLabels);
-        showStats(`Éxito: Se han generado ${expandedLabels.length} etiquetas en ${totalPairs} fila/s listas para imprimir.`);
+        showStats(`Generadas ${expandedLabels.length} etiquetas.`);
         printBtn.disabled = false;
     }
 
     // =========================================================
-    // PANTALLA ÚNICO — LÓGICA
+    // LÓGICA ÚNICO
     // =========================================================
     singleGenerateBtn.addEventListener('click', generateSingleLabel);
     singlePrintBtn.addEventListener('click', () => window.print());
@@ -287,16 +298,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const sku    = singleSKU.value.trim();
         const precio = singlePrecio.value.trim();
 
-        // Validación básica
         if (!nombre && !sku) {
-            singleStatus.textContent = "Por favor, completá al menos el Nombre o el SKU.";
+            singleStatus.textContent = "Completá Nombre o SKU.";
             return;
         }
 
         singleStatus.textContent = "";
-
-        // Creamos un único "expandedLabel" → quedará en el slot IZQUIERDO,
-        // el slot derecho queda vacío (placeholder), igual que un total impar.
         const labelData = [{
             texto: nombre,
             sku:   sku,
@@ -305,9 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderLabels(labelData);
         singlePrintBtn.disabled = false;
-
-        // Scroll suave hacia la etiqueta generada
-        printArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function resetSingle() {
